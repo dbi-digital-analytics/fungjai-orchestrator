@@ -1,2 +1,0 @@
-# fungjai-orchestrator
-For Airflow 
