@@ -7,8 +7,6 @@ RUN apt -y update && apt install -y p7zip-full
 
 USER airflow
 RUN pip install \
-    airflow-clickhouse-plugin==0.10.0 \
-    clickhouse-cityhash==1.0.2.4 \
     lz4==4.3.2 \
-    airflow-providers-clickhouse==0.0.1 \
+    minio==7.1.13 \
     clickhouse-connect==0.5.11
