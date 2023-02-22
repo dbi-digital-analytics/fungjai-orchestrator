@@ -2,7 +2,6 @@
 
 Set up project fungjai-orchestrator สำหรับดึงข้อมูลจาก kafka ไปเก็บที่ minio แล้วส่งต่อไปยัง clickhouse โดยใช้ airflow เป็นตัวกลางในการส่งข้อมูล
 
-สามารถไป clone project ได้ที่  [Github](https://github.com/dbi-digital-analytics/fungjai-orchestrator)
 ## Set up fungjai-orchestrator
 
 
