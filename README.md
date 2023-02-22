@@ -2,6 +2,7 @@
 
 Set up project fungjai-orchestrator สำหรับดึงข้อมูลจาก kafka ไปเก็บที่ minio แล้วส่งต่อไปยัง clickhouse โดยใช้ airflow เป็นตัวกลางในการส่งข้อมูล
 
+สามารถไป clone project ได้ที่  [Github](https://github.com/dbi-digital-analytics/fungjai-orchestrator)
 ## Set up fungjai-orchestrator
 
 
@@ -30,4 +31,9 @@ docker-compose up -d
 make up
 ```
 เราก็จะได้ docker container มาแล้วว :whale:
-   
+
+จากนั่นสร้าง 
+* topic ที่ kafka ชื่อ first_kafka_topic
+* bucket ที่ minio ชื่อ test-buckets
+* table ที่ clickhouse ชื่อ test1
+เพื่อรันคำสั่งตาม code เดิมได้เลย
