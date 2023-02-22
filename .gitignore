@@ -4,3 +4,4 @@ minio_data
 plugins
 .env
 dags/__pycache__/*
+clickhouse_data
