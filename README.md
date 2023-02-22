@@ -36,4 +36,5 @@ make up
 * topic ที่ kafka ชื่อ first_kafka_topic
 * bucket ที่ minio ชื่อ test-buckets
 * table ที่ clickhouse ชื่อ test1
+
 เพื่อรันคำสั่งตาม code เดิมได้เลย
