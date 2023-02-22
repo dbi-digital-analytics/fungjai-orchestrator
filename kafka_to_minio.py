@@ -13,7 +13,7 @@ def upload_to_minio(data_list):
     ACCESS_KEY = "minio123"
     SECRET_KEY = "minio123"
     MINIO_API_HOST = "localhost:9000"
-    BUCKET_NAME = "kafka-bucket"
+    BUCKET_NAME = "test-buckets"
     MINIO_CLIENT = Minio(
         MINIO_API_HOST, access_key=ACCESS_KEY, secret_key=SECRET_KEY, secure=False
     )
