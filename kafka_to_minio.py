@@ -1,10 +1,10 @@
-from minio import Minio
-from confluent_kafka import Consumer
-import pandas as pd
-import os
-from datetime import datetime
-import time
 import io
+import time
+
+from confluent_kafka import Consumer
+from datetime import datetime
+from minio import Minio
+
 
 def upload_to_minio(text):
     # minio config
@@ -13,7 +13,10 @@ def upload_to_minio(text):
     MINIO_API_HOST = "localhost:9000"
     BUCKET_NAME = "kafka-bucket"
     MINIO_CLIENT = Minio(
-        MINIO_API_HOST, access_key=ACCESS_KEY, secret_key=SECRET_KEY, secure=False
+        MINIO_API_HOST,
+        access_key=ACCESS_KEY,
+        secret_key=SECRET_KEY,
+        secure=False
     )
 
     # time
@@ -33,11 +36,12 @@ def upload_to_minio(text):
     except:
         print("Error upload to bucket")
 
+
 # kafka config
 c = Consumer(
     {
-        "bootstrap.servers": "localhost:9092",  # replace with your Kafka bootstrap servers
-        "group.id": "my-consumer-group",  # replace with your consumer group ID
+        "bootstrap.servers": "localhost:9092",
+        "group.id": "my-consumer-group",
         "auto.offset.reset": "earliest",
     }
 )
@@ -55,5 +59,3 @@ while count < 3:
         text = text_encode.decode("utf-8")
         print(f"Received message: {text}")
         upload_to_minio(text_encode)
-
-
