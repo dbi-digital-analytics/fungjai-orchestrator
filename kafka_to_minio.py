@@ -4,42 +4,34 @@ import pandas as pd
 import os
 from datetime import datetime
 import time
+import io
 
-def upload_to_minio(data_list):
-    # local config
-    PATH = "C:/Users/Few/Desktop/Code_Test/python_test/kafka_to_minio"
-
+def upload_to_minio(text):
     # minio config
     ACCESS_KEY = "minio123"
     SECRET_KEY = "minio123"
     MINIO_API_HOST = "localhost:9000"
-    BUCKET_NAME = "test-buckets"
+    BUCKET_NAME = "kafka-bucket"
     MINIO_CLIENT = Minio(
         MINIO_API_HOST, access_key=ACCESS_KEY, secret_key=SECRET_KEY, secure=False
     )
 
     # time
-    str_date_time = datetime.now().strftime("%d-%m-%Y")
-    count_time = int(round(time.time() * 1000))
+    str_datetime = datetime.now().strftime("%d-%m-%Y")
+    timestamp = int(round(time.time() * 1000))
 
     # file name
-    FILE_NAME = f"mood_{str_date_time}_{count_time}.csv"
+    FILE_NAME = f"mood_{str_datetime}_{timestamp}.json"
 
-    # convert List to DataFrame
-    df = pd.DataFrame({"mood": data_list})
-    df.to_csv(f"{PATH}/{FILE_NAME}", index=False)
-
-    # logging file name
-    print(f"{PATH}/{FILE_NAME}")
+    # convert to bytes
+    text_bytes = io.BytesIO(text)
 
     # upload to minio
     try:
-        MINIO_CLIENT.fput_object(BUCKET_NAME, FILE_NAME, f"{PATH}/{FILE_NAME}")
+        MINIO_CLIENT.put_object(BUCKET_NAME, FILE_NAME, text_bytes, len(text))
         print("Success upload to bucket")
-        os.remove(f"{PATH}/{FILE_NAME}")
     except:
         print("Error upload to bucket")
-
 
 # kafka config
 c = Consumer(
@@ -49,10 +41,9 @@ c = Consumer(
         "auto.offset.reset": "earliest",
     }
 )
-c.subscribe(["first_kafka_topic"])
+c.subscribe(["topic-kafka-json"])
 
 # pull data from kafka
-data_list = []
 count = 0
 while count < 3:
     message = c.poll(1.0)  # pull messages from kafka every 1 second
@@ -60,11 +51,9 @@ while count < 3:
         print("message is None")
         count += 1
     else:
-        text = message.value().decode("utf-8")
+        text_encode = message.value()
+        text = text_encode.decode("utf-8")
         print(f"Received message: {text}")
+        upload_to_minio(text_encode)
 
-        data_list.append(text)
 
-        # upload_to_minio(data_list)
-
-        data_list.clear()
